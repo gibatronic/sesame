@@ -1,3 +1,0 @@
-[submodule "lib/rfid"]
-	path = lib/rfid
-	url = https://github.com/miguelbalboa/rfid
