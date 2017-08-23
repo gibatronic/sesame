@@ -1,0 +1,18 @@
+#!/usr/bin/env bash
+
+. tsk/env
+
+main() {
+  local OPTIONS=(
+    --verify
+    --board $ARDUINO_BOARD
+    --port $ARDUINO_PORT
+    --pref build.path="${SESAME_PATH}/bin"
+    --verbose
+    "${SESAME_PATH}/src/main.ino"
+  )
+
+  $ARDUINO "${OPTIONS[@]}"
+}
+
+main

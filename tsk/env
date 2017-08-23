@@ -1,0 +1,7 @@
+#!/usr/bin/env bash
+
+ARDUINO='/Applications/Arduino.app/Contents/MacOS/Arduino'
+ARDUINO_BOARD='arduino:avr:leonardo'
+ARDUINO_PORT='/dev/cu.usbmodem1421'
+
+SESAME_PATH="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"

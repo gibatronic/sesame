@@ -1,0 +1,9 @@
+#!/usr/bin/env bash
+
+. tsk/env
+
+main() {
+  $ARDUINO --install-library 'MFRC522'
+}
+
+main
