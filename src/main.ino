@@ -1,6 +1,8 @@
+#include "built-in-led.h"
+#include <Arduino.h>
 #include <EEPROM.h>
-#include <SPI.h>
 #include <MFRC522.h>
+#include <SPI.h>
 
 constexpr uint8_t relay = 12;
 
@@ -19,31 +21,38 @@ constexpr uint8_t SS_PIN = 10;
 
 MFRC522 mfrc522(SS_PIN, RST_PIN);
 
-void setup() {
-  pinMode(relay, OUTPUT);
-  digitalWrite(relay, LOW);
+boolean checkTwo(byte a[], byte b[]);
+boolean findID(byte find[]);
+boolean isMaster(byte test[]);
+uint8_t findIDSLOT(byte find[]);
+uint8_t getID();
+void deleteID(byte a[]);
+void loop();
+void readID(uint8_t number);
+void setup();
+void writeID(byte a[]);
 
-  Serial.begin(9600);
+void setup() {
+  digitalWrite(relay, LOW);
+  pinMode(relay, OUTPUT);
+  builtInLed::setup();
+
   SPI.begin();
 
   mfrc522.PCD_Init();
   mfrc522.PCD_SetAntennaGain(mfrc522.RxGain_max);
 
-  Serial.println(F("SESAME"));
-  Serial.println("");
-
   byte v = mfrc522.PCD_ReadRegister(mfrc522.VersionReg);
 
   if ((v == 0x00) || (v == 0xFF)) {
-    Serial.println(F("Communication with MFRC522 has failed."));
-
-    while(true);
+    while (true) {
+      builtInLed::sos();
+    }
   }
 
   if (EEPROM.read(1) != 143) {
-    Serial.println(F("Define a master card by scanning one now."));
-
     do {
+      builtInLed::mc();
       successRead = getID();
     } while (!successRead);
 
@@ -52,17 +61,13 @@ void setup() {
     }
 
     EEPROM.write(1, 143);
-
-    Serial.println(F("Succesfully defined the master card."));
-    Serial.println("");
   }
 
   for (uint8_t i = 0; i < 4; i++) {
     masterCard[i] = EEPROM.read(2 + i);
   }
 
-  Serial.println(F("Ready to bounce!"));
-  Serial.println("");
+  builtInLed::ok();
 }
 
 void loop() {
@@ -73,58 +78,41 @@ void loop() {
   if (programMode) {
     if (isMaster(readCard)) {
       programMode = false;
-
-      Serial.println(F("Master card scanned."));
-      Serial.println(F("Exiting program mode."));
-      Serial.println("");
-    } else {
-      if (findID(readCard)) {
-        Serial.println(F("I know this PICC, removing..."));
-        deleteID(readCard);
-        Serial.println(F("Scan a PICC to ADD or REMOVE to EEPROM"));
-
-        return;
-      }
-
-      Serial.println(F("I do not know this PICC, adding..."));
-      writeID(readCard);
-      Serial.println(F("Scan a PICC to ADD or REMOVE to EEPROM"));
-    }
-  } else {
-    if (isMaster(readCard)) {
-      programMode = true;
-      Serial.println(F("Hello Master - Entered Program Mode"));
-      uint8_t count = EEPROM.read(0);
-      Serial.print(F("I have "));
-      Serial.print(count);
-      Serial.print(F(" record(s) on EEPROM"));
-      Serial.println("");
-      Serial.println(F("Scan a PICC to ADD or REMOVE to EEPROM"));
-      Serial.println(F("Scan Master Card again to Exit Program Mode"));
+      builtInLed::ok();
 
       return;
     }
 
     if (findID(readCard)) {
-      Serial.println(F("Welcome! Open sesame!"));
-      granted();
+      deleteID(readCard);
+      builtInLed::ok();
+
       return;
     }
 
-    Serial.println(F("You shall not pass"));
-    denied();
+    writeID(readCard);
+    builtInLed::ok();
+
+    return;
   }
-}
 
-void granted() {
-  digitalWrite(relay, HIGH);
-  delay(500);
-  digitalWrite(relay, LOW);
-  delay(1000);
-}
+  if (isMaster(readCard)) {
+    programMode = true;
+    builtInLed::mc();
 
-void denied() {
-  delay(1000);
+    return;
+  }
+
+  if (findID(readCard)) {
+    digitalWrite(relay, HIGH);
+    delay(500);
+    digitalWrite(relay, LOW);
+    builtInLed::ok();
+
+    return;
+  }
+
+  builtInLed::sos();
 }
 
 uint8_t getID() {
@@ -136,14 +124,10 @@ uint8_t getID() {
     return 0;
   }
 
-  Serial.println(F("Scanned PICC's UID:"));
-
   for (uint8_t i = 0; i < 4; i++) {
     readCard[i] = mfrc522.uid.uidByte[i];
-    Serial.print(readCard[i], HEX);
   }
 
-  Serial.println("");
   mfrc522.PICC_HaltA();
 
   return 1;
@@ -158,12 +142,6 @@ void readID(uint8_t number) {
 }
 
 void writeID(byte a[]) {
-  if (findID(a)) {
-    Serial.println(F("Failed! There is something wrong with ID or bad EEPROM"));
-
-    return;
-  }
-
   uint8_t num = EEPROM.read(0);
   uint8_t start = (num * 4) + 6;
   num++;
@@ -172,14 +150,10 @@ void writeID(byte a[]) {
   for (uint8_t j = 0; j < 4; j++) {
     EEPROM.write(start + j, a[j]);
   }
-
-  Serial.println(F("Succesfully added ID record to EEPROM"));
 }
 
 void deleteID(byte a[]) {
   if (!findID(a)) {
-    Serial.println(F("Failed! There is something wrong with ID or bad EEPROM"));
-
     return;
   }
 
@@ -202,8 +176,6 @@ void deleteID(byte a[]) {
   for (uint8_t k = 0; k < 4; k++) {
     EEPROM.write(start + j + k, 0);
   }
-
-  Serial.println(F("Succesfully removed ID record from EEPROM"));
 }
 
 boolean checkTwo(byte a[], byte b[]) {
