@@ -3,6 +3,9 @@
 . tsk/env
 
 main() {
+  git submodule init
+  git submodule update
+
   $ARDUINO --install-library 'MFRC522'
 }
 
