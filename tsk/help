@@ -1,0 +1,11 @@
+#!/usr/bin/env bash
+
+. tsk/env
+
+echo ''
+echo '  Usage:'
+echo '    make <target>'
+echo ''
+echo '  Targets:'
+"${SESAME_PATH}/lib/make-help/bin/make-help" -p 4 Makefile
+echo ''

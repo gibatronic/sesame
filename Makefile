@@ -1,4 +1,5 @@
 .PHONY: clean \
+				help \
 				setup \
 				upload \
 				verify
@@ -8,6 +9,10 @@
 # remove builded files
 clean:
 	tsk/clean
+
+# show some help
+help:
+	tsk/help
 
 # install third-party libraries
 setup:
