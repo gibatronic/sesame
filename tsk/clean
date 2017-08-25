@@ -1,0 +1,7 @@
+#!/usr/bin/env bash
+
+main() {
+  rm -fr bin
+}
+
+main

@@ -1,8 +1,13 @@
-.PHONY: setup \
+.PHONY: clean \
+				setup \
 				upload \
 				verify
 
 .SILENT:
+
+# remove builded files
+clean:
+	tsk/clean
 
 # install third-party libraries
 setup:
