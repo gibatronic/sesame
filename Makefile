@@ -1,3 +1,5 @@
+.DEFAULT_GOAL := help
+
 .PHONY: clean \
 				help \
 				setup \
