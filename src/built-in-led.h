@@ -3,16 +3,21 @@
 
 #include <Arduino.h>
 
-namespace builtInLed {
-  constexpr byte time = 100;
+class BuiltInLed {
+  private:
+    byte time;
 
-  void dash(void);
-  void dot(void);
-  void gap(void);
-  void mc(void);
-  void ok(void);
-  void setup(void);
-  void sos(void);
-}
+  public:
+    BuiltInLed(byte time);
+    void blinkMC(void);
+    void blinkOK(void);
+    void blinkSOS(void);
+    void setup(void);
+
+  private:
+    void dash(void);
+    void dot(void);
+    void gap(void);
+};
 
 #endif
