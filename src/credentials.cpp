@@ -22,12 +22,13 @@ bool Credentials::hasCard(card &cardBuffer) {
 
 card Credentials::readCard(unsigned int block) {
   unsigned int index;
+  unsigned int offset = block * card::idSize;
   card cardBuffer;
 
   cardBuffer.block = block;
 
   for (index = 0; index < card::idSize; index++) {
-    unsigned int address = (block * card::idSize) + index;
+    unsigned int address = offset + index;
 
     cardBuffer.id[index] = EEPROM.read(address);
   };
@@ -35,9 +36,9 @@ card Credentials::readCard(unsigned int block) {
   return cardBuffer;
 };
 
-void Credentials::eraseCard(card &cardBuffer) {
+bool Credentials::eraseCard(card &cardBuffer) {
   if (cardBuffer.block == -1) {
-    return;
+    return false;
   };
 
   unsigned int index;
@@ -46,27 +47,30 @@ void Credentials::eraseCard(card &cardBuffer) {
     cardBuffer.id[index] = 0x00;
   };
 
-  writeCard(cardBuffer);
+  return writeCard(cardBuffer);
 };
 
-void Credentials::writeCard(card &cardBuffer) {
+bool Credentials::writeCard(card &cardBuffer) {
   if (cardBuffer.block == -1) {
     int blankBlock = findBlankBlock();
 
     if (blankBlock == -1) {
-      return;
-    }
+      return false;
+    };
 
     cardBuffer.block = blankBlock;
   };
 
   unsigned int index;
+  unsigned int offset = cardBuffer.block * card::idSize;
 
   for (index = 0; index < card::idSize; index++) {
-    unsigned int address = (cardBuffer.block * card::idSize) + index;
+    unsigned int address = offset + index;
 
     EEPROM.update(address, cardBuffer.id[index]);
   };
+
+  return true;
 };
 
 int Credentials::findBlankBlock(void) {

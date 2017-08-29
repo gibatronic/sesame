@@ -10,7 +10,7 @@ struct card {
   int block = -1;
 
   bool isBlank(void);
-  bool isEqualTo(card cardBuffer);
+  bool isEqualTo(const card &cardBuffer);
 };
 
 #endif

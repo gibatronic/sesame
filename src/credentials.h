@@ -8,8 +8,8 @@ class Credentials {
   public:
     bool hasCard(card &cardBuffer);
     card readCard(unsigned int block);
-    void eraseCard(card &cardBuffer);
-    void writeCard(card &cardBuffer);
+    bool eraseCard(card &cardBuffer);
+    bool writeCard(card &cardBuffer);
   private:
     int findBlankBlock(void);
 };

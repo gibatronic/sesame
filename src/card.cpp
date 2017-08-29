@@ -13,7 +13,7 @@ bool card::isBlank(void) {
   return true;
 };
 
-bool card::isEqualTo(card cardBuffer) {
+bool card::isEqualTo(const card &cardBuffer) {
   unsigned int index;
 
   for (index = 0; index < idSize; index++) {
