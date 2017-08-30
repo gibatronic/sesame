@@ -1,3 +1,6 @@
 [submodule "lib/make-help"]
 	path = lib/make-help
 	url = https://github.com/gibatronic/make-help
+[submodule "lib/rfid"]
+	path = lib/rfid
+	url = https://github.com/miguelbalboa/rfid.git
