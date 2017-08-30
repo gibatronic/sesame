@@ -1,7 +1,11 @@
 #!/usr/bin/env bash
 
-ARDUINO='/Applications/Arduino.app/Contents/MacOS/Arduino'
-ARDUINO_BOARD='arduino:avr:leonardo'
-ARDUINO_PORT="$(find /dev/cu.usbmodem* | head -n 1)"
+ARDUINO_JAVA='/Applications/Arduino.app/Contents/Java'
+
+ARDUINO_BUILD_MCU='atmega32u4'
+ARDUINO_BUILD_VARIANT='leonardo'
+ARDUINO_UPLOAD_PORT="$(find /dev/cu.usbmodem* | head -n 1)"
+ARDUINO_UPLOAD_PROTOCOL='avr109'
+ARDUINO_UPLOAD_SPEED='57600'
 
 SESAME_PATH="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"

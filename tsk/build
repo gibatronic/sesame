@@ -1,0 +1,21 @@
+#!/usr/bin/env bash
+
+. tsk/env
+
+main() {
+  local OPTIONS=(
+    -compile
+    -hardware "${ARDUINO_JAVA}/hardware"
+    -tools "${ARDUINO_JAVA}/hardware/tools"
+    -tools "${ARDUINO_JAVA}/tools-builder"
+    -libraries "${SESAME_PATH}/lib"
+    -fqbn "arduino:avr:${ARDUINO_BUILD_VARIANT}"
+    -build-path "${SESAME_PATH}/bin"
+    "${SESAME_PATH}/src/main.ino"
+  )
+
+  mkdir -p "${SESAME_PATH}/bin"
+  "${ARDUINO_JAVA}/arduino-builder" "${OPTIONS[@]}"
+}
+
+main

@@ -5,8 +5,6 @@
 main() {
   git submodule init
   git submodule update
-
-  $ARDUINO --install-library 'MFRC522'
 }
 
 main

@@ -1,12 +1,16 @@
 .DEFAULT_GOAL := help
 
-.PHONY: clean \
+.PHONY: build \
+				clean \
 				help \
 				setup \
-				upload \
-				verify
+				upload
 
 .SILENT:
+
+# compile the project
+build:
+	tsk/build
 
 # remove builded files
 clean:
@@ -20,10 +24,6 @@ help:
 setup:
 	tsk/setup
 
-# verify, build and upload the project
-upload:
+# upload the project
+upload: build
 	tsk/upload
-
-# verify the project
-verify:
-	tsk/verify
