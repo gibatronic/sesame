@@ -28,7 +28,7 @@ Access control project for my home.
   ✕ ╭─┤ MODE? ├─╮ ✓     ✕ ╭─┤ MODE? ├─╮ ✓
     │ ╰───────╯ │         │ ╰───────╯ │
 ╭───┴────╮ ╭────┴──╮  ╭───┴────╮ ╭────┴───╮
-│   DENY │ │ STORE │  │ REMOVE │ │ ALLOW  │
-│ ACCESS │ │ CARD  │  │   CARD │ │ ACCESS │
+│   DENY │ │ STORE │  │  ALLOW │ │ REMOVE │
+│ ACCESS │ │ CARD  │  │ ACCESS │ │ CARD   │
 ╰────────╯ ╰───────╯  ╰────────╯ ╰────────╯
 ```
