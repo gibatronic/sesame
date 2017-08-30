@@ -3,7 +3,10 @@
 #include <MFRC522.h>
 #include <SPI.h>
 
-CardReader::CardReader(byte pinRST, byte pinSS) : pinRST(pinRST), pinSS(pinSS), mfrc522(pinSS, pinRST) {
+CardReader::CardReader(byte pinRST, byte pinSS) :
+  pinRST(pinRST),
+  pinSS(pinSS),
+  mfrc522(pinSS, pinRST) {
 };
 
 bool CardReader::isWired(void) {

@@ -5,7 +5,10 @@
 #include "sesame.h"
 #include <Arduino.h>
 
-Sesame::Sesame(void) : builtInLed(timeBuiltInLed), electricStrike(pinElectricStrike), cardReader(pinCardReaderRST, pinCardReaderSS) {
+Sesame::Sesame(void) :
+  builtInLed(timeBuiltInLed),
+  electricStrike(pinElectricStrike),
+  cardReader(pinCardReaderRST, pinCardReaderSS) {
 };
 
 void Sesame::halt(void) {
