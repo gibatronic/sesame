@@ -17,30 +17,8 @@ void Sesame::halt(void) {
 void Sesame::loop(void) {
   card cardBuffer = cardReader.readCard();
 
-  if (administrating) {
-    if (cardBuffer.isEqualTo(masterCard)) {
-      administrating = false;
-
-      builtInLed.blinkOK();
-
-      return;
-    };
-
-    if (credentials.hasCard(cardBuffer)) {
-      credentials.eraseCard(cardBuffer);
-      builtInLed.blinkOK();
-
-      return;
-    };
-
-    credentials.writeCard(cardBuffer);
-    builtInLed.blinkOK();
-
-    return;
-  };
-
   if (cardBuffer.isEqualTo(masterCard)) {
-    administrating = true;
+    administrating = !administrating;
 
     builtInLed.blinkMC();
 
@@ -48,7 +26,20 @@ void Sesame::loop(void) {
   };
 
   if (credentials.hasCard(cardBuffer)) {
-    electricStrike.unlock();
+    if (administrating) {
+      credentials.eraseCard(cardBuffer);
+    } else {
+      electricStrike.unlock();
+    };
+
+    builtInLed.blinkOK();
+
+    return;
+  };
+
+  if (administrating) {
+    credentials.writeCard(cardBuffer);
+    builtInLed.blinkOK();
 
     return;
   };
