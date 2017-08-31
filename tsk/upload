@@ -10,11 +10,21 @@ main() {
     -P "${ARDUINO_UPLOAD_PORT}"
     -b "${ARDUINO_UPLOAD_SPEED}"
     -D
+    -q
     -U "flash:w:${SESAME_PATH}/bin/main.ino.hex:i"
+    -V
   )
 
+  # reset the Arduino
   stty -f "${ARDUINO_UPLOAD_PORT}" 1200
-  sleep 1
+
+  # wait for it...
+  while :; do
+    sleep 0.5
+    [ -c "${ARDUINO_UPLOAD_PORT}" ] && break
+  done
+
+  # ...upload!
   "${ARDUINO_JAVA}/hardware/tools/avr/bin/avrdude" "${OPTIONS[@]}"
 }
 
