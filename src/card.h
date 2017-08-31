@@ -6,7 +6,7 @@
 struct card {
   static constexpr byte idSize = 4;
 
-  byte id[idSize];
+  byte id[idSize] {0x00};
   int block = -1;
 
   bool isBlank(void);

@@ -20,26 +20,23 @@ bool CardReader::isWired(void) {
 };
 
 card CardReader::readCard(void) {
-  bool read = false;
   card cardBuffer;
+
+  if (!mfrc522.PICC_IsNewCardPresent()) {
+    return cardBuffer;
+  };
+
+  if (!mfrc522.PICC_ReadCardSerial()) {
+    return cardBuffer;
+  };
+
   unsigned int index;
 
-  do {
-    if (!mfrc522.PICC_IsNewCardPresent()) {
-      continue;
-    }
+  for (index = 0; index < card::idSize; index++) {
+    cardBuffer.id[index] = mfrc522.uid.uidByte[index];
+  };
 
-    if (!mfrc522.PICC_ReadCardSerial()) {
-      continue;
-    }
-
-    for (index = 0; index < card::idSize; index++) {
-      cardBuffer.id[index] = mfrc522.uid.uidByte[index];
-    }
-
-    read = true;
-    mfrc522.PICC_HaltA();
-  } while (!read);
+  mfrc522.PICC_HaltA();
 
   return cardBuffer;
 };

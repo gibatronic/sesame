@@ -6,10 +6,12 @@
 class ElectricStrike {
   private:
     byte pin;
+    unsigned long timeBase;
 
   public:
     ElectricStrike(byte pin);
     void setup(void);
+    void loop(void);
     void unlock(void);
 };
 

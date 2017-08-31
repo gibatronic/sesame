@@ -1,26 +1,35 @@
 #ifndef SESAME_H
 #define SESAME_H
 
-#include "built-in-led.h"
 #include "card-reader.h"
 #include "credentials.h"
 #include "electric-strike.h"
+#include "led.h"
 #include <Arduino.h>
 
 class Sesame {
   private:
     static constexpr byte pinCardReaderRST = 9;
     static constexpr byte pinCardReaderSS = 10;
+
     static constexpr byte pinElectricStrike = 12;
-    static constexpr byte timeBuiltInLed = 200;
+
+    static constexpr byte pinLedRed = 3;
+    static constexpr byte pinLedGreen = 5;
+    static constexpr byte pinLedBlue = 6;
+
+    static constexpr unsigned int timeLedBlink = 400;
+    static constexpr unsigned int timeLedPulse = 1000;
 
     bool administrating = false;
+    bool error = false;
+
     card masterCard;
 
-    BuiltInLed builtInLed;
     CardReader cardReader;
     Credentials credentials;
     ElectricStrike electricStrike;
+    Led led;
 
   public:
     Sesame(void);

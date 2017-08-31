@@ -1,29 +1,33 @@
-#include "built-in-led.h"
+#include "card-reader.h"
 #include "credentials.h"
 #include "electric-strike.h"
-#include "card-reader.h"
+#include "led.h"
 #include "sesame.h"
 #include <Arduino.h>
 
 Sesame::Sesame(void) :
-  builtInLed(timeBuiltInLed),
+  cardReader(pinCardReaderRST, pinCardReaderSS),
   electricStrike(pinElectricStrike),
-  cardReader(pinCardReaderRST, pinCardReaderSS) {
-};
-
-void Sesame::halt(void) {
-  while (true) {
-    builtInLed.blinkSOS();
-  };
+  led(pinLedRed, pinLedGreen, pinLedBlue, timeLedBlink, timeLedPulse) {
 };
 
 void Sesame::loop(void) {
+  electricStrike.loop();
+  led.loop();
+
+  if (error) {
+    return;
+  };
+
   card cardBuffer = cardReader.readCard();
+
+  if (cardBuffer.isBlank()) {
+    return;
+  };
 
   if (cardBuffer.isEqualTo(masterCard)) {
     administrating = !administrating;
-
-    builtInLed.blinkMC();
+    led.blink(0, 0, 255);
 
     return;
   };
@@ -31,32 +35,36 @@ void Sesame::loop(void) {
   if (credentials.hasCard(cardBuffer)) {
     if (administrating) {
       credentials.eraseCard(cardBuffer);
-    } else {
-      electricStrike.unlock();
+      led.blink(255, 0, 0);
+
+      return;
     };
 
-    builtInLed.blinkOK();
+    electricStrike.unlock();
+    led.blink(0, 255, 0);
 
     return;
   };
 
   if (administrating) {
     credentials.writeCard(cardBuffer);
-    builtInLed.blinkOK();
+    led.blink(0, 255, 0);
 
     return;
   };
 
-  builtInLed.blinkSOS();
+  led.blink(255, 0, 0);
 };
 
 void Sesame::setup(void) {
-  builtInLed.setup();
-  electricStrike.setup();
   cardReader.setup();
+  electricStrike.setup();
+  led.setup();
 
   if (!cardReader.isWired()) {
-    halt();
+    error = true;
+
+    led.pulse(255, 0, 0);
 
     return;
   };
@@ -64,13 +72,19 @@ void Sesame::setup(void) {
   masterCard = credentials.readCard(0);
 
   if (masterCard.isBlank()) {
-    builtInLed.blinkMC();
+    led.set(0, 0, 255);
 
-    masterCard = cardReader.readCard();
+    do {
+      masterCard = cardReader.readCard();
+
+      led.loop();
+    } while (masterCard.isBlank());
+
+    led.set(0, 0, 0);
+
     masterCard.block = 0;
-
     credentials.writeCard(masterCard);
   };
 
-  builtInLed.blinkOK();
+  led.blink(0, 255, 0);
 };
