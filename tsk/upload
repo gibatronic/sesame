@@ -4,13 +4,13 @@
 
 main() {
   local OPTIONS=(
-    "-C${ARDUINO_JAVA}/hardware/tools/avr/etc/avrdude.conf"
-    "-p${ARDUINO_BUILD_MCU}"
-    "-c${ARDUINO_UPLOAD_PROTOCOL}"
-    "-P${ARDUINO_UPLOAD_PORT}"
-    "-b${ARDUINO_UPLOAD_SPEED}"
+    -C "${ARDUINO_JAVA}/hardware/tools/avr/etc/avrdude.conf"
+    -p "${ARDUINO_BUILD_MCU}"
+    -c "${ARDUINO_UPLOAD_PROTOCOL}"
+    -P "${ARDUINO_UPLOAD_PORT}"
+    -b "${ARDUINO_UPLOAD_SPEED}"
     -D
-    "-Uflash:w:${SESAME_PATH}/bin/main.ino.hex:i"
+    -U "flash:w:${SESAME_PATH}/bin/main.ino.hex:i"
   )
 
   stty -f "${ARDUINO_UPLOAD_PORT}" 1200
