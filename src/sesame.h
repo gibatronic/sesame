@@ -13,13 +13,13 @@ class Sesame {
     static constexpr byte pinCardReaderSS = 10;
 
     static constexpr byte pinElectricStrike = 12;
-    static constexpr unsigned int timeElectricStrikeOpen = 1000;
+    static constexpr unsigned int timeElectricStrikeOpen = 2000;
 
     static constexpr byte pinLedRed = 3;
     static constexpr byte pinLedGreen = 5;
     static constexpr byte pinLedBlue = 6;
 
-    static constexpr unsigned int timeLedBlink = 400;
+    static constexpr unsigned int timeLedBlink = 2000;
     static constexpr unsigned int timeLedPulse = 1000;
 
     bool administrating = false;
