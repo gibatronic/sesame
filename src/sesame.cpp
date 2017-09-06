@@ -6,9 +6,23 @@
 #include <Arduino.h>
 
 Sesame::Sesame(void) :
-  cardReader(pinCardReaderRST, pinCardReaderSS),
-  electricStrike(pinElectricStrike, timeElectricStrikeOpen),
-  led(pinLedRed, pinLedGreen, pinLedBlue, timeLedBlink, timeLedPulse) {
+  cardReader(
+    pinCardReaderRST,
+    pinCardReaderSS
+  ),
+
+  electricStrike(
+    pinElectricStrike,
+    timeElectricStrikeOpen
+  ),
+
+  led(
+    pinLedRed,
+    pinLedGreen,
+    pinLedBlue,
+    timeLedBlink,
+    timeLedPulse
+  ) {
 };
 
 void Sesame::loop(void) {
