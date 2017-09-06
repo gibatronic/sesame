@@ -7,7 +7,7 @@
 
 Sesame::Sesame(void) :
   cardReader(pinCardReaderRST, pinCardReaderSS),
-  electricStrike(pinElectricStrike),
+  electricStrike(pinElectricStrike, timeElectricStrikeOpen),
   led(pinLedRed, pinLedGreen, pinLedBlue, timeLedBlink, timeLedPulse) {
 };
 

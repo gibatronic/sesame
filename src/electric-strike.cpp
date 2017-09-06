@@ -1,7 +1,11 @@
 #include "electric-strike.h"
 #include <Arduino.h>
 
-ElectricStrike::ElectricStrike(byte pin) : pin(pin) {
+ElectricStrike::ElectricStrike(
+  byte pin,
+  unsigned int timeOpen) :
+  pin(pin),
+  timeOpen(timeOpen) {
 };
 
 void ElectricStrike::setup(void) {
@@ -10,7 +14,7 @@ void ElectricStrike::setup(void) {
 };
 
 void ElectricStrike::loop(void) {
-  if (timeBase != 0 && millis() - timeBase >= 500) {
+  if (timeBase != 0 && millis() - timeBase >= timeOpen) {
     timeBase = 0;
 
     digitalWrite(pin, LOW);

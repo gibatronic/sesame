@@ -6,10 +6,15 @@
 class ElectricStrike {
   private:
     byte pin;
+    unsigned int timeOpen;
     unsigned long timeBase;
 
   public:
-    ElectricStrike(byte pin);
+    ElectricStrike(
+      byte pin,
+      unsigned int timeOpen
+    );
+
     void setup(void);
     void loop(void);
     void unlock(void);
