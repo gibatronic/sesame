@@ -2,6 +2,8 @@
 
 Access control project for my home.
 
+[![check it out on YouTube](etc/youtube.png)](https://www.youtube.com/watch?v=wosOB2mCduo)
+
 ## Components
 
 * Arduino Leonardo
