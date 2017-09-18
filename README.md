@@ -1,6 +1,6 @@
 # Sesame
 
-Access control project for my home.
+Access control project for my home. Check it out on [Arduino Project Hub](https://create.arduino.cc/projecthub/gibatronic/sesame-130ae7).
 
 [![Check it out on YouTube](etc/youtube.png)](https://www.youtube.com/watch?v=wosOB2mCduo)
 
