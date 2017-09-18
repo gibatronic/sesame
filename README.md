@@ -2,7 +2,7 @@
 
 Access control project for my home.
 
-[![check it out on YouTube](etc/youtube.png)](https://www.youtube.com/watch?v=wosOB2mCduo)
+[![Check it out on YouTube](etc/youtube.png)](https://www.youtube.com/watch?v=wosOB2mCduo)
 
 ## Components
 
@@ -34,3 +34,7 @@ Access control project for my home.
 │ ACCESS │ │ CARD  │  │ ACCESS │ │ CARD   │
 ╰────────╯ ╰───────╯  ╰────────╯ ╰────────╯
 ```
+
+## Breadboard
+
+[![Fritzing circuit](etc/sesame-breadboard.png)](etc/sesame.fzz)
